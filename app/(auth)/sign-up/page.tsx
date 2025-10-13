@@ -29,7 +29,10 @@ const SignUp = () => {
          },)
     const onSubmit = async (data : SignUpFormData) => {
          try{
-            console.log(data)
+             await fetch('/api/signup', {
+                 method:'POST',
+                 body: JSON.stringify(data),
+             })
          } catch(e){
              console.log('error', e);
          }
@@ -52,6 +55,7 @@ const SignUp = () => {
                 <InputField
                     name='email'
                     label='Email'
+                    type={'email'}
                     placeholder="contact@gmail.com"
                     register={register}
                     error={errors.email}

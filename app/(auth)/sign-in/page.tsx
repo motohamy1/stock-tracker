@@ -20,7 +20,13 @@ const SignIn = () => {
     },)
     const onSubmit = async (data : SignInFormData) => {
         try{
-            console.log(data)
+            await fetch('/api/auth/signin', {
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+            })
         } catch(e){
             console.log('error', e);
         }
@@ -35,6 +41,7 @@ const SignIn = () => {
                 <InputField
                     name='email'
                     label='Email'
+                    type={'email'}
                     placeholder="contact@gmail.com"
                     register={register}
                     error={errors.email}
