@@ -34,4 +34,5 @@ export const connectToDatabase = async () => {
     // Mask potential credentials in the URI before logging
     const maskedUri = MONGODB_URI.replace(/\/\/[^:]+:[^@]+@/, '//***:***@');
     console.log(`connected to database ${process.env.NODE_ENV} - ${maskedUri}`);
+    return cached.conn;
 }
