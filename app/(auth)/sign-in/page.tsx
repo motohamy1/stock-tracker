@@ -5,8 +5,12 @@ import {useForm} from "react-hook-form";
 import InputField from "@/components/forms/inputField";
 import {Button} from "@/components/ui/button";
 import FooterLink from "@/components/forms/FooterLink";
+import { signInWithEmail } from '@/lib/actions/auth.actions';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const SignIn = () => {
+    const router = useRouter();
     const {
         register,
         handleSubmit,
@@ -18,19 +22,19 @@ const SignIn = () => {
         },
         mode: 'onBlur'
     },)
-    const onSubmit = async (data : SignInFormData) => {
-        try{
-            await fetch('/api/auth/signin', {
-                method:'POST',
-                headers:{
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data),
+    const onSubmit = async (data: SignInFormData) => {
+        try {
+            const result = await signInWithEmail(data);
+            
+            if(result?.success) router.push('/')
+            
+        } catch (e) {
+            console.log("error", e);
+            toast.error('Sign in failed',{
+                description: e instanceof Error? e.message : 'Failed to sign in'
             })
-        } catch(e){
-            console.log('error', e);
         }
-    }
+    };
 
     return (
         <>
@@ -45,7 +49,13 @@ const SignIn = () => {
                     placeholder="contact@gmail.com"
                     register={register}
                     error={errors.email}
-                    validation={{required: 'Email is required', pattern: /^[A-Z0][a-z]{3}$/g}}
+                    validation={{
+                        required: 'Email is required',
+                        pattern: {
+                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                            message: 'Enter a valid email address'
+                        }
+                    }}
                 />
                 <InputField
                     name='password'
@@ -54,7 +64,10 @@ const SignIn = () => {
                     type={'password'}
                     register={register}
                     error={errors.password}
-                    validation={{required: 'Password is required', minLength:8, pattern: /^[A-Z0][a-z]{3}$/g}}
+                    validation={{
+                        required: 'Password is required',
+                        minLength: { value: 8, message: 'Password must be at least 8 characters' }
+                    }}
                 />
 
 

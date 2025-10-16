@@ -31,9 +31,9 @@ type CountrySelectProps = {
 };
 
 const CountrySelect = ({
-                           value,
-                           onChange,
-                       }: {
+    value,
+    onChange,
+}: {
     value: string;
     onChange: (value: string) => void;
 }) => {
@@ -64,9 +64,9 @@ const CountrySelect = ({
                 >
                     {value ? (
                         <span className='flex items-center gap-2'>
-              <span>{getFlagEmoji(value)}</span>
-              <span>{countries.find((c : { value: string; label: string; }) => c.value === value)?.label}</span>
-            </span>
+                            <span>{getFlagEmoji(value)}</span>
+                            <span>{countries.find((c: { value: string; label: string; }) => c.value === value)?.label}</span>
+                        </span>
                     ) : (
                         'Select your country...'
                     )}
@@ -87,7 +87,7 @@ const CountrySelect = ({
                     </CommandEmpty>
                     <CommandList className='max-h-60 bg-gray-800 scrollbar-hide-default'>
                         <CommandGroup className='bg-gray-800'>
-                            {countries.map((country : { value: string; label: string; }) => (
+                            {countries.map((country: { value: string; label: string; }) => (
                                 <CommandItem
                                     key={country.value}
                                     value={`${country.label} ${country.value}`}
@@ -104,9 +104,9 @@ const CountrySelect = ({
                                         )}
                                     />
                                     <span className='flex items-center gap-2'>
-                    <span>{getFlagEmoji(country.value)}</span>
-                    <span>{country.label}</span>
-                  </span>
+                                        <span>{getFlagEmoji(country.value)}</span>
+                                        <span>{country.label}</span>
+                                    </span>
                                 </CommandItem>
                             ))}
                         </CommandGroup>
@@ -118,12 +118,12 @@ const CountrySelect = ({
 };
 
 export const CountrySelectField = ({
-                                       name,
-                                       label,
-                                       control,
-                                       error,
-                                       required = false,
-                                   }: CountrySelectProps) => {
+    name,
+    label,
+    control,
+    error,
+    required = false,
+}: CountrySelectProps) => {
     return (
         <div className='space-y-2'>
             <Label htmlFor={name} className='form-label'>

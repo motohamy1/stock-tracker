@@ -16,7 +16,7 @@ const Home = () => {
                         title='Market Overview'
                         scriptUrl='https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js'
                         config={MARKET_OVERVIEW_WIDGET_CONFIG}
-                         className='custom-chart'
+                        className='custom-chart'
                         height={600}
                     />
                 </div>
@@ -25,7 +25,7 @@ const Home = () => {
                         title='Stock Heatmap'
                         scriptUrl='https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js'
                         config={HEATMAP_WIDGET_CONFIG}
-                         className='custom-chart'
+                        className='custom-chart'
                         height={600}
                     />
                 </div>
@@ -36,7 +36,7 @@ const Home = () => {
                     <TradingViewWidget
                         scriptUrl='https://s3.tradingview.com/external-embedding/embed-widget-timeline.js'
                         config={TOP_STORIES_WIDGET_CONFIG}
-                         className='custom-chart'
+                        className='custom-chart'
                         height={600}
                     />
                 </div>
@@ -44,7 +44,7 @@ const Home = () => {
                     <TradingViewWidget
                         scriptUrl='https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js'
                         config={MARKET_DATA_WIDGET_CONFIG}
-                         className='custom-chart'
+                        className='custom-chart'
                         height={600}
                     />
                 </div>

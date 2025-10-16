@@ -1,124 +1,154 @@
-'use client';
+"use client";
 
-import React from 'react';
-import {useForm, SubmitHandler} from "react-hook-form";
-import {Button} from "@/components/ui/button";
+import React from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 import InputField from "@/components/forms/inputField";
 import SelectField from "@/components/forms/SelectField";
-import {INVESTMENT_GOALS, PREFERRED_INDUSTRIES, RISK_TOLERANCE_OPTIONS} from "@/lib/constants";
-import {CountrySelectField} from "@/components/forms/CountrySelectField";
+import {
+    INVESTMENT_GOALS,
+    PREFERRED_INDUSTRIES,
+    RISK_TOLERANCE_OPTIONS,
+} from "@/lib/constants";
+import { CountrySelectField } from "@/components/forms/CountrySelectField";
 import FooterLink from "@/components/forms/FooterLink";
-
+import { Toaster } from "@/components/ui/sonner";
+import { signUpWithEmail } from "@/lib/actions/auth.actions";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const SignUp = () => {
-     const {
-         register,
-         handleSubmit,
-         control,
-         formState: { errors, isSubmitting},} = useForm<SignUpFormData>({
-                defaultValues : {
-                    fullName : "",
-                    email : "",
-                    password : "",
-                    country : '',
-                    investmentGoals : 'Growth',
-                    riskTolerance : 'Medium',
-                    preferredIndustry : 'Technology'
-                },
-             mode: 'onBlur'
-         },)
-    const onSubmit = async (data : SignUpFormData) => {
-         try{
-             await fetch('/api/signup', {
-                 method:'POST',
-                 body: JSON.stringify(data),
-             })
-         } catch(e){
-             console.log('error', e);
-         }
-    }
+
+    const router = useRouter();
+    const {
+        register,
+        handleSubmit,
+        control,
+        formState: { errors, isSubmitting },
+    } = useForm<SignUpFormData>({
+        defaultValues: {
+            fullName: "",
+            email: "",
+            password: "",
+            country: "",
+            investmentGoals: "Growth",
+            riskTolerance: "Medium",
+            preferredIndustry: "Technology",
+        },
+        mode: "onBlur",
+    });
+    const onSubmit = async (data: SignUpFormData) => {
+        try {
+            console.log('Submitting form data:', data);
+            const result = await signUpWithEmail(data);
+            console.log('Sign up result:', result);
+            
+            if(result?.success) {
+                toast.success('Sign Up successful',{
+                    description: 'Redirecting to homepage...'
+                });
+                router.push('/');
+            } else {
+                toast.error('Sign Up failed',{
+                    description: result?.error || 'Failed to create an account'
+                });
+            }
+        } catch (e) {
+            console.log("error", e);
+            toast.error('Sign Up failed',{
+                description: e instanceof Error? e.message : 'Failed to create an account'
+            })
+        }
+    };
 
     return (
         <>
-            <h1 className='form-title'>Sign Up & Personalize</h1>
+            <h1 className="form-title">Sign Up & Personalize</h1>
 
-            <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
-
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                 <InputField
-                    name='fullName'
-                    label='Full Name'
+                    name="fullName"
+                    label="Full Name"
                     placeholder="Ahmed Mohamed"
                     register={register}
                     error={errors.fullName}
-                    validation={{required: 'Full Name is required', minLength: 2}}
+                    validation={{ required: "Full Name is required", minLength: 2 }}
                 />
                 <InputField
-                    name='email'
-                    label='Email'
-                    type={'email'}
+                    name="email"
+                    label="Email"
+                    type={"email"}
                     placeholder="contact@gmail.com"
                     register={register}
                     error={errors.email}
-                    validation={{required: 'Email is required', pattern: /^[A-Z0][a-z]{3}$/g}}
+                    validation={{
+                        required: "Email is required",
+                    }}
                 />
-                <InputField
-                    name='password'
-                    label='Password'
+                <InputField 
+                    name="password"
+                    label="Password"
                     placeholder="Enter a strong password"
-                    type={'password'}
+                    type={"password"}
                     register={register}
-                    error={errors.password}
-                    validation={{required: 'Password is required', minLength:8, pattern: /^[A-Z0][a-z]{3}$/g}}
+                    error={errors.password} 
+                    validation={{
+                        required: "Password is required",
+                        minLength: 8,
+                    }}
                 />
 
                 <CountrySelectField
-                    name='country'
-                    label='Country'
+                    name="country"
+                    label="Country"
                     control={control}
                     error={errors.country}
                     required
                 />
 
                 <SelectField
-                    name='investmentGoals'
-                    label='Investment Goals'
-                    placeholder='Select your investment goal'
+                    name="investmentGoals"
+                    label="Investment Goals"
+                    placeholder="Select your investment goal"
                     options={INVESTMENT_GOALS}
                     control={control}
                     error={errors.investmentGoals}
                     required
                 />
                 <SelectField
-                    name='riskTolerance'
-                    label='Risk Tolerance'
-                    placeholder='Select your risk level'
+                    name="riskTolerance"
+                    label="Risk Tolerance"
+                    placeholder="Select your risk level"
                     options={RISK_TOLERANCE_OPTIONS}
                     control={control}
                     error={errors.riskTolerance}
                     required
                 />
                 <SelectField
-                    name='preferredIndustry'
-                    label='Preferred Industry'
-                    placeholder='Select your preferred industry'
+                    name="preferredIndustry"
+                    label="Preferred Industry"
+                    placeholder="Select your preferred industry"
                     options={PREFERRED_INDUSTRIES}
                     control={control}
                     error={errors.preferredIndustry}
                     required
                 />
 
-
-                <Button type='submit' disabled={isSubmitting} className='yellow-btn w-full mt-5'>
-                    {isSubmitting ? 'Creating account' : 'Start Your Investing Journey'}
+                <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="yellow-btn w-full mt-5"
+                >
+                    {isSubmitting ? "Creating account" : "Start Your Investing Journey"}
                 </Button>
 
                 <FooterLink
-                    text='Already have an account?'
-                    linkText='Sign in'
-                    href='/sign-in'
+                    text="Already have an account?"
+                    linkText="Sign in"
+                    href="/sign-in"
                 />
             </form>
         </>
-    )
-}
+    );
+};
 export default SignUp;
