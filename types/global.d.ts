@@ -91,6 +91,25 @@ declare global {
         type: string;
     };
 
+    type FinnhubSearchResultWithExchange = FinnhubSearchResult & {
+        __exchange?: string;
+    };
+
+    type FinnhubProfile = {
+        name?: string;
+        ticker?: string;
+        exchange?: string;
+        country?: string;
+        currency?: string;
+        ipo?: string;
+        marketCapitalization?: number;
+        shareOutstanding?: number;
+        logo?: string;
+        phone?: string;
+        weburl?: string;
+        finnhubIndustry?: string;
+    };
+
     type FinnhubSearchResponse = {
         count: number;
         result: FinnhubSearchResult[];
