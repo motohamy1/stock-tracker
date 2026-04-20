@@ -117,6 +117,28 @@ export async function getNews(symbols?: string[]): Promise<MarketNewsArticle[]> 
   }
 }
 
+export async function getQuote(symbol: string) {
+  try {
+    const token = process.env.FINNHUB_API_KEY ?? NEXT_PUBLIC_FINNHUB_API_KEY;
+    const url = `${FINNHUB_BASE_URL}/quote?symbol=${symbol.toUpperCase()}&token=${token}`;
+    return await fetchJSON<QuoteData>(url, 60); // Cache for 60 seconds
+  } catch (error) {
+    console.error(`Error fetching quote for ${symbol}:`, error);
+    return null;
+  }
+}
+
+export async function getCompanyProfile(symbol: string) {
+  try {
+    const token = process.env.FINNHUB_API_KEY ?? NEXT_PUBLIC_FINNHUB_API_KEY;
+    const url = `${FINNHUB_BASE_URL}/stock/profile2?symbol=${symbol.toUpperCase()}&token=${token}`;
+    return await fetchJSON<FinnhubProfile>(url, 3600);
+  } catch (error) {
+    console.error(`Error fetching profile for ${symbol}:`, error);
+    return null;
+  }
+}
+
 export const searchStocks = cache(async (query?: string): Promise<StockWithWatchlistStatus[]> => {
   try {
     const token = process.env.FINNHUB_API_KEY ?? NEXT_PUBLIC_FINNHUB_API_KEY;
@@ -131,8 +153,8 @@ export const searchStocks = cache(async (query?: string): Promise<StockWithWatch
     let results: FinnhubSearchResult[] = [];
 
     if (!trimmed) {
-      // Fetch top 10 popular symbols' profiles
-      const top = POPULAR_STOCK_SYMBOLS.slice(0, 10);
+      // Fetch top 30 popular symbols' profiles
+      const top = POPULAR_STOCK_SYMBOLS.slice(0, 30);
       const profiles = await Promise.all(
         top.map(async (sym) => {
           try {
@@ -186,7 +208,7 @@ export const searchStocks = cache(async (query?: string): Promise<StockWithWatch
         };
         return item;
       })
-      .slice(0, 15);
+      .slice(0, 50);
 
     return mapped;
   } catch (err) {

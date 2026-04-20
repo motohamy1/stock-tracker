@@ -5,7 +5,7 @@ import NavItems from "@/components/NavItems";
 import UserDropdown from "@/components/UserDropdown";
 import { searchStocks } from '@/lib/actions/finnhub.actions';
 
-const Header = async ({ user }: { user: { id: string; name: string; email: string } }) => {
+const Header = async ({ user }: { user: { id: string; name: string; email: string; image?: string | null } | null }) => {
     const intialStocks = await searchStocks();
 
     return (
@@ -21,9 +21,13 @@ const Header = async ({ user }: { user: { id: string; name: string; email: strin
                     />
                 </Link>
                 <nav className='hidden sm:block'>
-                    <NavItems intialStocks={intialStocks} />
+                    <NavItems 
+                        intialStocks={intialStocks} 
+                        isAuthenticated={!!user}
+                        userEmail={user?.email}
+                    />
                 </nav>
-                <UserDropdown user={user} intialStock={intialStocks} />
+                <UserDropdown user={user} intialStocks={intialStocks} />
             </div>
         </header>
     )

@@ -7,13 +7,13 @@ import { headers } from "next/headers";
 const Layout = async ({children} : {children : React.ReactNode}) => {
 
     const session = await auth.api.getSession({ headers: await headers()});
-    if (!session?.user) redirect("/sign-in");
-    
-    const user = {
+
+    const user = session?.user ? {
         id: session.user.id,
         name: session.user.name,
         email: session.user.email,
-    }
+        image: session.user.image,
+    } : null;
 
     return (
         <main className='min-h-screen text-gray-400'>

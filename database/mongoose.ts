@@ -28,6 +28,22 @@ export const connectToDatabase = async () => {
         cached.conn = await cached.promise;
     } catch (err) {
         cached.promise = null;
+        const errorMessage = err instanceof Error ? err.message : String(err);
+        const errorName = err instanceof Error ? err.name : '';
+        
+        if (errorName.includes('ServerSelectionError') || errorMessage.includes('ServerSelectionError')) {
+             console.error('\n❌ MongoDB Connection Error: Could not connect to any servers.');
+             console.error('💡 This is often caused by an IP whitelist issue in MongoDB Atlas.');
+             try {
+                 // Try to fetch public IP to help the user
+                 const response = await fetch('https://ifconfig.me/ip');
+                 const ip = await response.text();
+                 console.error(`👉 Your current public IP is: ${ip.trim()}`);
+                 console.error('🔗 Add this IP to your Atlas whitelist: https://cloud.mongodb.com/\n');
+             } catch (ipErr) {
+                 // Ignore IP fetch errors
+             }
+        }
         throw err;
     }
 

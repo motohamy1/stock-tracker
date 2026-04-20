@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# StockJar
+
+A stock tracking web app built with Next.js 15. Search stocks, manage a personal watchlist, and receive AI-powered daily news summaries via email.
+
+## Features
+
+- Stock search powered by the [Finnhub API](https://finnhub.io)
+- TradingView chart widgets for real-time price visualization
+- Personal watchlist per user
+- Authentication via [Better Auth](https://better-auth.com)
+- AI-generated personalized welcome emails on sign-up
+- Daily market news summary emails tailored to your watchlist (via [Inngest](https://inngest.com) + Gemini AI)
+- Email delivery via Nodemailer
+
+## Tech Stack
+
+- **Framework:** Next.js 15 (Turbopack)
+- **Database:** MongoDB / Mongoose
+- **Auth:** Better Auth
+- **Background jobs / AI:** Inngest + Gemini 2.5 Flash Lite
+- **Email:** Nodemailer
+- **UI:** Tailwind CSS v4, Radix UI, shadcn/ui, Lucide icons
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+
+- A MongoDB connection string
+- A [Finnhub](https://finnhub.io) API key
+- An [Inngest](https://inngest.com) account (for background jobs)
+- An SMTP server or email provider for Nodemailer
+
+### Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+MONGODB_URI=<your_mongodb_uri>
+FINNHUB_API_KEY=<your_finnhub_api_key>
+NEXT_PUBLIC_FINNHUB_API_KEY=<your_finnhub_api_key>
+BETTER_AUTH_SECRET=<your_better_auth_secret>
+BETTER_AUTH_URL=http://localhost:3000
+INNGEST_EVENT_KEY=<your_inngest_event_key>
+INNGEST_SIGNING_KEY=<your_inngest_signing_key>
+EMAIL_HOST=<smtp_host>
+EMAIL_PORT=<smtp_port>
+EMAIL_USER=<smtp_user>
+EMAIL_PASS=<smtp_password>
+EMAIL_FROM=<from_address>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Install & Run
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+### Other Scripts
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run build      # Production build
+npm run start      # Start production server
+npm run db:test    # Test MongoDB connection
+```

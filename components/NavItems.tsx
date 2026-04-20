@@ -7,7 +7,15 @@ import {usePathname} from "next/navigation";
 import SearchCommand from './SearchCommand';
 
 
-const NavItems = ({ intialStocks }: { intialStocks: StockWithWatchlistStatus[] }) => {
+const NavItems = ({ 
+    intialStocks, 
+    isAuthenticated, 
+    userEmail 
+}: { 
+    intialStocks: StockWithWatchlistStatus[],
+    isAuthenticated?: boolean,
+    userEmail?: string | null
+}) => {
 
     const pathname = usePathname();
 
@@ -26,6 +34,8 @@ const NavItems = ({ intialStocks }: { intialStocks: StockWithWatchlistStatus[] }
                             renderAs="text"
                             label="Search"
                             intialStocks={intialStocks}
+                            isAuthenticated={isAuthenticated}
+                            userEmail={userEmail}
                         />
                     </li>
                 )

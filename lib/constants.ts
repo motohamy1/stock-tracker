@@ -1,7 +1,7 @@
 export const NAV_ITEMS = [
     { href: '/', label: 'Dashboard' },
     { href: '/search', label: 'Search' },
-    // { href: '/watchlist', label: 'Watchlist' },
+    { href: '/watchlist', label: 'Watchlist' },
 ];
 
 // Sign-up form select options
@@ -263,65 +263,33 @@ export const COMPANY_FINANCIALS_WIDGET_CONFIG = (symbol: string) => ({
 });
 
 export const POPULAR_STOCK_SYMBOLS = [
-    // Tech Giants (the big technology companies)
-    'AAPL',
-    'MSFT',
-    'GOOGL',
-    'AMZN',
-    'TSLA',
-    'META',
-    'NVDA',
-    'NFLX',
-    'ORCL',
-    'CRM',
-
-    // Growing Tech Companies
-    'ADBE',
-    'INTC',
-    'AMD',
-    'PYPL',
-    'UBER',
-    'ZOOM',
-    'SPOT',
-    'SQ',
-    'SHOP',
-    'ROKU',
-
-    // Newer Tech Companies
-    'SNOW',
-    'PLTR',
-    'COIN',
-    'RBLX',
-    'DDOG',
-    'CRWD',
-    'NET',
-    'OKTA',
-    'TWLO',
-    'ZM',
-
-    // Consumer & Delivery Apps
-    'DOCU',
-    'PTON',
-    'PINS',
-    'SNAP',
-    'LYFT',
-    'DASH',
-    'ABNB',
-    'RIVN',
-    'LCID',
-    'NIO',
-
-    // International Companies
-    'XPEV',
-    'LI',
-    'BABA',
-    'JD',
-    'PDD',
-    'TME',
-    'BILI',
-    'DIDI',
-    'GRAB',
-    'SE',
+    // Tech Giants
+    'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'META', 'NVDA', 'NFLX', 'ORCL', 'CRM',
+    
+    // Financials
+    'JPM', 'BAC', 'GS', 'MS', 'V', 'MA', 'PYPL', 'AXP', 'WFC', 'C',
+    
+    // Healthcare & Biotech
+    'JNJ', 'UNH', 'PFE', 'ABBV', 'MRK', 'LLY', 'TMO', 'DHR', 'BMY', 'AMGN',
+    
+    // Consumer & Retail
+    'WMT', 'HD', 'COST', 'PG', 'KO', 'PEP', 'NKE', 'MCD', 'SBUX', 'LOW',
+    
+    // Energy & Industrials
+    'XOM', 'CVX', 'CAT', 'GE', 'HON', 'MMM', 'UPS', 'FDX', 'LMT', 'BA',
+    
+    // Semiconductors & Growing Tech
+    'AMD', 'INTC', 'TSM', 'ASML', 'AVGO', 'QCOM', 'TXN', 'MU', 'AMAT', 'LRCX',
+    'ADBE', 'UBER', 'SNOW', 'PLTR', 'SHOP', 'SQ', 'SPOT', 'CRWD', 'NET', 'OKTA',
+    
+    // EV & Clean Energy
+    'RIVN', 'LCID', 'NIO', 'BYDDY', 'F', 'GM', 'ENPH', 'SEDG', 'NEE', 'FSLR',
+    
+    // International & E-commerce
+    'BABA', 'JD', 'PDD', 'SE', 'MELI', 'Tencent', 'Sony', 'TM', 'HMC', 'BP',
+    
+    // More major US companies
+    'DIS', 'NFLX', 'CMG', 'SBUX', 'TJX', 'MAR', 'T', 'VZ', 'TMUS', 'CHTR'
 ];
 
 export const NO_MARKET_NEWS =

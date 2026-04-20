@@ -1,9 +1,8 @@
 "use client";
-import React, { useMemo, useState } from "react";
-
-// Minimal WatchlistButton implementation to satisfy page requirements.
-// This component focuses on UI contract only. It toggles local state and
-// calls onWatchlistChange if provided. Styling hooks match globals.css.
+import React, { useMemo, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { toggleWatchlist } from "@/lib/actions/watchlist.actions";
+import { toast } from "sonner";
 
 const WatchlistButton = ({
   symbol,
@@ -11,19 +10,48 @@ const WatchlistButton = ({
   isInWatchlist,
   showTrashIcon = false,
   type = "button",
+  isAuthenticated,
   onWatchlistChange,
 }: WatchlistButtonProps) => {
+  const router = useRouter();
   const [added, setAdded] = useState<boolean>(!!isInWatchlist);
+  const [isPending, startTransition] = useTransition();
 
   const label = useMemo(() => {
-    if (type === "icon") return added ? "" : "";
+    if (type === "icon") return "";
     return added ? "Remove from Watchlist" : "Add to Watchlist";
   }, [added, type]);
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!isAuthenticated) {
+      router.push('/sign-in');
+      return;
+    }
+
     const next = !added;
+    
+    // Optimistic UI update
     setAdded(next);
-    onWatchlistChange?.(symbol, next);
+
+    startTransition(async () => {
+      try {
+        const result = await toggleWatchlist(symbol, company, next);
+        if (result.success) {
+          toast.success(next ? `Added ${symbol} to watchlist` : `Removed ${symbol} from watchlist`);
+          onWatchlistChange?.(symbol, next);
+        } else {
+          // Revert on failure
+          setAdded(!next);
+          toast.error(result.error || "Failed to update watchlist");
+        }
+      } catch (error) {
+        setAdded(!next);
+        toast.error("An unexpected error occurred");
+      }
+    });
   };
 
   if (type === "icon") {
@@ -37,10 +65,10 @@ const WatchlistButton = ({
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
-          fill={added ? "#FACC15" : "none"}
-          stroke="#FACC15"
+          fill={added ? "currentColor" : "none"}
+          stroke="currentColor"
           strokeWidth="1.5"
-          className="watchlist-star"
+          className="star-icon"
         >
           <path
             strokeLinecap="round"

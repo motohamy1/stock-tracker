@@ -60,6 +60,7 @@ async function testDatabaseConnection() {
         await mongoose.connect(MONGODB_URI, {
             bufferCommands: false,
             serverSelectionTimeoutMS: 10000, // 10 second timeout
+            family: 4, // Force IPv4
         });
         console.log('✅ Successfully connected to MongoDB');
     } catch (error) {

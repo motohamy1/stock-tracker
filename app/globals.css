@@ -265,7 +265,7 @@
     .watchlist-empty {
         @apply flex flex-col items-center justify-center text-center;
     }
-    .watchlist-star {
+    .watchlist-star-large {
         @apply h-16 w-16 text-gray-500 mb-4;
     }
     .empty-title {
@@ -284,7 +284,7 @@
         @apply items-start gap-6 h-full flex-col w-full lg:col-span-1;
     }
     .watchlist-icon-btn {
-        @apply w-fit cursor-pointer hover:bg-transparent! text-gray-400 hover:text-yellow-500;
+        @apply w-fit cursor-pointer flex items-center justify-center hover:bg-transparent! text-gray-400 hover:text-yellow-500;
     }
     .watchlist-icon-added {
         @apply !text-yellow-500 hover:!text-yellow-600;
