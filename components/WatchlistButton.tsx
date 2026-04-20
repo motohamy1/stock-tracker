@@ -15,7 +15,7 @@ const WatchlistButton = ({
 }: WatchlistButtonProps) => {
   const router = useRouter();
   const [added, setAdded] = useState<boolean>(!!isInWatchlist);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   const label = useMemo(() => {
     if (type === "icon") return "";
@@ -47,7 +47,7 @@ const WatchlistButton = ({
           setAdded(!next);
           toast.error(result.error || "Failed to update watchlist");
         }
-      } catch (error) {
+      } catch {
         setAdded(!next);
         toast.error("An unexpected error occurred");
       }

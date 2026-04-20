@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
     Dialog,
     DialogContent,
@@ -22,6 +22,7 @@ import {
 import { createAlert, getAlertsForSymbol, deleteAlert } from "@/lib/actions/alert.actions";
 import { toast } from "sonner";
 import { Loader2, Trash2, Bell } from "lucide-react";
+import { AlertItem } from "@/database/models/alert.model";
 
 interface AlertModalProps {
     symbol: string;
@@ -40,12 +41,12 @@ export default function AlertModal({
 }: AlertModalProps) {
     const [loading, setLoading] = useState(false);
     const [fetching, setFetching] = useState(false);
-    const [existingAlerts, setExistingAlerts] = useState<any[]>([]);
+    const [existingAlerts, setExistingAlerts] = useState<AlertItem[]>([]);
     const [alertName, setAlertName] = useState(`${symbol} Price Alert`);
     const [alertType, setAlertType] = useState<'upper' | 'lower'>('upper');
     const [threshold, setThreshold] = useState<string>(currentPrice?.toString() || "");
 
-    const fetchAlerts = async () => {
+    const fetchAlerts = useCallback(async () => {
         setFetching(true);
         try {
             const alerts = await getAlertsForSymbol(symbol);
@@ -55,7 +56,7 @@ export default function AlertModal({
         } finally {
             setFetching(false);
         }
-    };
+    }, [symbol]);
 
     useEffect(() => {
         if (open) {
@@ -65,7 +66,7 @@ export default function AlertModal({
             setAlertName(`${symbol} Price Alert`);
             fetchAlerts();
         }
-    }, [symbol, currentPrice, open]);
+    }, [symbol, currentPrice, open, fetchAlerts]);
 
     const handleDeleteAlert = async (id: string) => {
         try {
@@ -76,7 +77,7 @@ export default function AlertModal({
             } else {
                 toast.error("Failed to delete alert");
             }
-        } catch (error) {
+        } catch {
             toast.error("An error occurred");
         }
     };
@@ -111,7 +112,7 @@ export default function AlertModal({
             } else {
                 toast.error(result.error || "Failed to create alert");
             }
-        } catch (error) {
+        } catch {
             toast.error("An unexpected error occurred");
         } finally {
             setLoading(false);
@@ -124,7 +125,7 @@ export default function AlertModal({
                 <DialogHeader>
                     <DialogTitle className="text-xl font-bold">Manage Price Alerts</DialogTitle>
                     <DialogDescription className="text-gray-400">
-                        Set target prices for {company} ({symbol}) and we'll notify you.
+                        Set target prices for {company} ({symbol}) and we&apos;ll notify you.
                     </DialogDescription>
                 </DialogHeader>
                 

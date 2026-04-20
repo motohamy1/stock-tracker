@@ -7,9 +7,11 @@ import TradingViewWidget from "@/components/TradingViewWidget";
 import { MARKET_DATA_WIDGET_CONFIG, WATCHLIST_TABLE_HEADER } from "@/lib/constants";
 import WatchlistButton from "@/components/WatchlistButton";
 import Link from "next/link";
-import { TrendingUp, TrendingDown, Eye, AlertCircle } from "lucide-react";
+import { Eye } from "lucide-react";
 import WatchlistAlertButton from "@/components/WatchlistAlertButton";
 import { redirect } from "next/navigation";
+import { WatchlistItem } from "@/database/models/watchlist.model";
+import { AlertItem } from "@/database/models/alert.model";
 
 export default async function WatchlistPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -22,13 +24,13 @@ export default async function WatchlistPage() {
   
   // Enrich with current data
   const enrichedWatchlist = await Promise.all(
-    rawWatchlist.map(async (item: any) => {
+    rawWatchlist.map(async (item: WatchlistItem) => {
       const [quote, profile] = await Promise.all([
         getQuote(item.symbol),
         getCompanyProfile(item.symbol)
       ]);
       
-      const symbolAlerts = userAlerts.filter((alert: any) => alert.symbol === item.symbol && alert.isActive);
+      const symbolAlerts = userAlerts.filter((alert: AlertItem) => alert.symbol === item.symbol && alert.isActive);
 
       return {
         ...item,

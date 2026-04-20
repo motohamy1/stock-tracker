@@ -1,13 +1,13 @@
 'use server';
 
 import { connectToDatabase } from "@/database/mongoose";
-import { Alert } from "@/database/models/alert.model";
+import { Alert, AlertItem } from "@/database/models/alert.model";
 import { auth } from "@/lib/better-auth/auth";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { getUserIdByEmail } from "./watchlist.actions";
 
-export const createAlert = async (alertData: any) => {
+export const createAlert = async (alertData: Partial<AlertItem>) => {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user?.email) {

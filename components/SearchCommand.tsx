@@ -9,7 +9,6 @@ import {
     CommandList,
 } from '@/components/ui/command'
 import { Loader2, TrendingUp, Search } from 'lucide-react'
-import Link from 'next/link'
 import { useDebounce } from '@/hooks/useDebounce'
 import { searchStocks } from '@/lib/actions/finnhub.actions'
 import WatchlistButton from './WatchlistButton'
@@ -76,7 +75,7 @@ export default function SearchCommand({
     const debouncedSearch = useDebounce(handleSearch, 500)
     useEffect(() => {
         debouncedSearch()
-    }, [searchTerm])
+    }, [searchTerm, debouncedSearch])
 
     const handleSelectStock = () => {
         setOpen(false);

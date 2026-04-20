@@ -1,3 +1,4 @@
+/* eslint-disable */
  /**
  * Database Connection Test Script
  * 

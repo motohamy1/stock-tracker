@@ -40,7 +40,7 @@ export const connectToDatabase = async () => {
                  const ip = await response.text();
                  console.error(`👉 Your current public IP is: ${ip.trim()}`);
                  console.error('🔗 Add this IP to your Atlas whitelist: https://cloud.mongodb.com/\n');
-             } catch (ipErr) {
+             } catch {
                  // Ignore IP fetch errors
              }
         }

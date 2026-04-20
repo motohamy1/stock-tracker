@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import InputField from "@/components/forms/inputField";
 import SelectField from "@/components/forms/SelectField";
@@ -12,7 +12,6 @@ import {
 } from "@/lib/constants";
 import { CountrySelectField } from "@/components/forms/CountrySelectField";
 import FooterLink from "@/components/forms/FooterLink";
-import { Toaster } from "@/components/ui/sonner";
 import { signUpWithEmail } from "@/lib/actions/auth.actions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";

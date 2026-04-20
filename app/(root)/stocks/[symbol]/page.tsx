@@ -15,6 +15,7 @@ import { headers } from "next/headers";
 import { getWatchlistSymbolsByEmail } from "@/lib/actions/watchlist.actions";
 import { getAlertsByUserId } from "@/lib/actions/alert.actions";
 import { getQuote } from "@/lib/actions/finnhub.actions";
+import { AlertItem } from "@/database/models/alert.model";
 
 export default async function StockDetails({ params }: StockDetailsPageProps) {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -34,7 +35,7 @@ export default async function StockDetails({ params }: StockDetailsPageProps) {
     ]);
     
     isInWatchlist = watchlistSymbols.includes(upperSymbol);
-    alertsCount = userAlerts.filter((alert: any) => alert.symbol === upperSymbol && alert.isActive).length;
+    alertsCount = userAlerts.filter((alert: AlertItem) => alert.symbol === upperSymbol && alert.isActive).length;
     currentPrice = quote?.c || 0;
   } else {
      const quote = await getQuote(upperSymbol);

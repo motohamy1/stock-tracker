@@ -14,7 +14,6 @@ const SignIn = () => {
     const {
         register,
         handleSubmit,
-        control,
         formState: { errors, isSubmitting},} = useForm<SignInFormData>({
         defaultValues : {
             email : "",

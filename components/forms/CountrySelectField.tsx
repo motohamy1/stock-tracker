@@ -21,6 +21,7 @@ import { Label } from '@/components/ui/label';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import countryList from 'react-select-country-list';
+import Image from 'next/image';
 
 type CountrySelectProps = {
     name: string;
@@ -44,13 +45,13 @@ const CountrySelect = ({
 
     // Helper function to get flag emoji
     const getFlagEmoji = (countryCode: string) => {
-        return <img
+        return <Image
             src={`https://flagcdn.com/w20/${countryCode.toLowerCase()}.png`}
             alt={`${countryCode} flag`}
-            width="20"
-            height="15"
-            style={{ display: 'inline-block', marginRight: '5px' }}
-        />;;
+            width={20}
+            height={15}
+            className="inline-block mr-[5px]"
+        />;
     };
 
     return (
